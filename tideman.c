@@ -196,24 +196,27 @@ void sort_pairs(void)
 void lock_pairs(void)
 {
     // TODO
+    int source = pairs[0].winner;
     for (int i = 0; i < pair_count; i++)
     {
         int candidates_win = pairs[i].winner;
         int candidates_los = pairs[i].loser;
         locked[candidates_win][candidates_los] = true;
         // prevent cycle
-        for (int j = 0; j < i; j++)
+        if (candidates_los == source)
         {
-            if (candidates_win == pairs[j].loser)
+            int maybe_source = candidates_win;
+            for (int j = 0; j < i; j++)
             {
-                for (int k = 0; k < i; k++)
+                if (candidates_win == pairs[j].loser)
                 {
-                    if (candidates_los == pairs[k].winner)
-                    {
-                        locked[candidates_win][candidates_los] = false;
-                        break;
-                    }
+                    locked[candidates_win][candidates_los] = false;
+                    break;
                 }
+            }
+            if (locked[candidates_win][candidates_los] == true)
+            {
+                source = maybe_source;
             }
         }
     }
