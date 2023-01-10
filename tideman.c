@@ -206,7 +206,7 @@ void lock_pairs(void)
         {
             if (candidates_win == pairs[j].loser)
             {
-                for (int k = 0; k < j; k++)
+                for (int k = 0; k < i; k++)
                 {
                     if (candidates_los == pairs[k].winner)
                     {
