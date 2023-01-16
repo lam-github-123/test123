@@ -196,31 +196,31 @@ void sort_pairs(void)
 void lock_pairs(void)
 {
     // TODO
-    int source = pairs[0].winner;
+    int win, los;
+    int pair_number = 0;
     for (int i = 0; i < pair_count; i++)
     {
-        int candidates_win = pairs[i].winner;
-        int candidates_los = pairs[i].loser;
-        locked[candidates_win][candidates_los] = true;
-        // prevent cycle
-        if (candidates_los == source)
+        int count_check = 0;
+        pair_number += 1;
+        locked[pairs[i].winner][pairs[i].loser] = true;
+        for (int j = 0; j <= i; j++)
         {
-            int maybe_source = candidates_win;
-            for (int j = 0; j < i; j++)
+            for (int k = 0; k <= i; k++)
             {
-                if (candidates_win == pairs[j].loser)
+                win = pairs[k].winner;
+                los = pairs[k].loser;
+                if (pairs[j].winner == los && locked[win][los] == true)
                 {
-                    locked[candidates_win][candidates_los] = false;
+                    count_check += 1;
                     break;
                 }
             }
-            if (locked[candidates_win][candidates_los] == true)
-            {
-                source = maybe_source;
-            }
+        }
+        if (count_check == pair_number)
+        {
+            locked[win][los] = false;
         }
     }
-    return;
 }
 
 // Print the winner of the election
