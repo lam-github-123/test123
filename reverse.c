@@ -67,10 +67,10 @@ int main(int argc, char *argv[])
     fseek(input, 0, SEEK_END);
     while(ftell(input) >= HEADER_SIZE)
     {
-        fseek(input, block_size, SEEK_CUR);
+        fseek(input, -1 * block_size, SEEK_CUR);
         fread(buffer, sizeof(buffer), 1, input);
         fwrite(buffer, sizeof(buffer), 1, output);
-        fseek(input, block_size, SEEK_CUR);
+        fseek(input, -1 * block_size, SEEK_CUR);
     }
     // TODO #8
     fclose(output);
